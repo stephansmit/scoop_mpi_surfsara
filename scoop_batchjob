@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+#SBATCH --partition=short
+#SBATCH -N 2
+#SBATCH --ntasks=24
+#SBATCH --ntasks-per-node=24
+#SBATCH -t 01:00:00
+#SBATCH --output job.log
+
+hostfile="hosts.txt" #the name of the hostfile, required to run scoop multinode
+nthreads=12          #the number of total threads of the scoop script (6 on each node, this is specified in the hostfile)
+
+python make_hostfile.py --ncores $nthreads --filename $hostfile #writing the hostfile for scoop
+python3 -m scoop --hostfile=$hostfile -n $nthreads main.py      #running the python code with scoop

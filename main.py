@@ -11,12 +11,12 @@ def mpi_exec_function(casename, input_file, cores, exec_dir):
     flog = open(str(casename)+'.log', 'w')
     fout = open(str(casename)+'.out', 'w')
     
-    cmd = ["mpirun", "-np", str(cores),os.path.join(exec_dir,'run'), 'mpi_input.cfg'] #run is the name of the executable
+    cmd = "/hpc/eb/RedHatEnterpriseServer7/OpenMPI/2.1.1-GCC-6.4.0-2.28/bin/mpirun -np "+str(cores)+" "+os.path.join(exec_dir,'run')+' mpi_input.cfg' #run is the name of the executable
     p = subprocess.Popen(
-            cmd, stdout=fout, stderr=ferr, cwd=os.getcwd())
+            cmd, shell=True, stdout=fout, stderr=ferr, cwd=os.getcwd())
     p.communicate()
     ferr.close()
-    ferr.close()
+    flog.close()
     fin.close()
     return "Succes"
 
